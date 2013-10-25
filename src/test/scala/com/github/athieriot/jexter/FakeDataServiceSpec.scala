@@ -1,14 +1,15 @@
-package com.example
+package com.github.athieriot.jexter
 
 import org.specs2.mutable.Specification
 import spray.testkit.Specs2RouteTest
 import spray.http._
 import StatusCodes._
+import com.github.athieriot.jexter.FakeDataService
 
-class MyServiceSpec extends Specification with Specs2RouteTest with MyService {
+class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDataService {
   def actorRefFactory = system
   
-  "MyService" should {
+  "FakeDataService" should {
 
     "return a greeting for GET requests to the root path" in {
       Get() ~> myRoute ~> check {

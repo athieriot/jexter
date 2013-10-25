@@ -1,4 +1,4 @@
-package com.example
+package com.github.athieriot.jexter
 
 import akka.actor.{Props, ActorSystem}
 import spray.servlet.WebBoot
@@ -12,6 +12,6 @@ class Boot extends WebBoot {
   val system = ActorSystem("example")
 
   // the service actor replies to incoming HttpRequests
-  val serviceActor = system.actorOf(Props[MyServiceActor])
+  val serviceActor = system.actorOf(Props[FakeDataServiceActor])
 
 }

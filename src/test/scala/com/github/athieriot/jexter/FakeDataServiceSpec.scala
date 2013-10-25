@@ -4,7 +4,6 @@ import org.specs2.mutable.Specification
 import spray.testkit.Specs2RouteTest
 import spray.http._
 import StatusCodes._
-import com.github.athieriot.jexter.FakeDataService
 
 class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDataService {
   def actorRefFactory = system
@@ -12,8 +11,9 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
   "FakeDataService" should {
 
     "return a greeting for GET requests to the root path" in {
-      Get() ~> myRoute ~> check {
-        responseAs[String] must contain("Say hello")
+      Get("/data/order.json") ~> myRoute ~> check {
+        contentType must beEqualTo(ContentTypes.`application/json`)
+        responseAs[String] must contain("tests")
       }
     }
 
@@ -24,7 +24,7 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
     }
 
     "return a MethodNotAllowed error for PUT requests to the root path" in {
-      Put() ~> sealRoute(myRoute) ~> check {
+      Put("/data/order.json") ~> sealRoute(myRoute) ~> check {
         status === MethodNotAllowed
         responseAs[String] === "HTTP method not allowed, supported methods: GET"
       }

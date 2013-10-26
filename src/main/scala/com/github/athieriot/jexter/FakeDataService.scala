@@ -25,7 +25,9 @@ trait FakeDataService extends HttpService {
   val myRoute =
     path("data" / Rest) { path =>
       get {
-        getFromResource("data/" + path, ContentTypes.`application/json`)
+        parameterSeq { params =>
+          getFromResource("data/" + path, ContentTypes.`application/json`)
+        }
       }
     }
 }

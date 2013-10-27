@@ -10,10 +10,43 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
   
   "FakeDataService" should {
 
-    "return a greeting for GET requests to the root path" in {
+    //TODO: Test JSON format
+    "return a static JSON corresponding to the given path" in {
       Get("/data/order.json") ~> myRoute ~> check {
-        contentType must beEqualTo(ContentTypes.`application/json`)
-        responseAs[String] must contain("tests")
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must contain("order")
+      }
+    }
+
+    "return a json generate by a SSP template" in {
+      Get("/data/projects.json?city=Verdun") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must contain("Verdun")
+      }
+    }
+
+    "return a json generate by a Mustache template" in {
+      Get("/data/order/details.json?city=Paris") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must contain("Paris")
+      }
+    }
+
+    "return a json generate by a SSP template with conditional" in {
+      Get("/data/capitol.json") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must not contain("Rome")
+        responseAs[String] must not contain("Paris")
+      }
+      Get("/data/capitol.json?country=France") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must contain("Paris")
+        responseAs[String] must not contain("Rome")
+      }
+      Get("/data/capitol.json?country=Italia") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`application/json`)
+        responseAs[String] must contain("Rome")
+        responseAs[String] must not contain("Paris")
       }
     }
 

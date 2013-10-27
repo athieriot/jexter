@@ -1,0 +1,5 @@
+<%@ val city: String = "" %>
+
+{
+    "title": "${city}"
+}

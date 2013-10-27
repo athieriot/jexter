@@ -1,0 +1,14 @@
+<%@ val country: String = "" %>
+
+#match(country)
+#case("France")
+    {
+        "title": "Paris"
+    }
+#case("Italia")
+    {
+        "title": "Rome"
+    }
+#otherwise
+    {}
+#end

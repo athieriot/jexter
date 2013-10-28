@@ -50,6 +50,12 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
       }
     }
 
+    "return a specific message when format not supported" in {
+      Get("/kermit") ~> myRoute ~> check {
+        handled must beFalse
+      }
+    }
+
     "leave GET requests to other paths unhandled" in {
       Get("/kermit") ~> myRoute ~> check {
         handled must beFalse

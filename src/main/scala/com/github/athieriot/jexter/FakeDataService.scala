@@ -4,9 +4,8 @@ import akka.actor.Actor
 import spray.routing._
 import spray.http.MediaTypes._
 
-import org.fusesource.scalate._
-import org.fusesource.scalate.util.{FileResourceLoader, Resource}
 import java.io.{File, FileNotFoundException}
+import org.fusesource.scalate.util.FileResourceLoader
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -22,21 +21,10 @@ class FakeDataServiceActor extends Actor with FakeDataService {
   def receive = runRoute(myRoute)
 }
 
-
 // this trait defines our service behavior independently from the service actor
-trait FakeDataService extends HttpService {
+trait FakeDataService extends HttpService with ScalateTemplate {
 
-  def engine = {
-    val engine = new TemplateEngine
-    engine.resourceLoader = new FileResourceLoader {
-      override def resource(uri: String): Option[Resource] =
-        Some(Resource.fromUri(uri, FileResourceLoader()))
-    }
-
-    engine
-  }
-
-  val supportedFormat = List("json", "ssp", "mustache", "scaml", "jade")
+  val supportedFormat = List("json", "json.ssp", "json.mustache", "json.scaml", "json.jade")
 
   val myRoute =
     path("data" / Rest) { path =>
@@ -44,15 +32,8 @@ trait FakeDataService extends HttpService {
         parameterSeq { params =>
 
           findSupportedFile("data/" + path) match {
-            case ("json", file) => {
-              getFromFile(file, `application/json`)
-            }
-            case (format, file) => {
-              respondWithMediaType(`application/json`) {
-
-                complete(engine.layout(file.getAbsolutePath, params.toMap))
-              }
-            }
+            case ("json", file) => getFromFile(file, `application/json`)
+            case (format, file) => getFromTemplate(file, params.toMap)
           }
         }
       }

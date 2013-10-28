@@ -24,7 +24,7 @@ class FakeDataServiceActor extends Actor with FakeDataService {
 // this trait defines our service behavior independently from the service actor
 trait FakeDataService extends HttpService with ScalateTemplate {
 
-  val supportedFormat = List("json", "json.ssp", "json.mustache", "json.scaml", "json.jade")
+  val supportedFormat = List("", ".ssp", ".mustache", ".scaml", ".jade")
 
   val myRoute =
     path("data" / Rest) { path =>
@@ -32,7 +32,7 @@ trait FakeDataService extends HttpService with ScalateTemplate {
         parameterSeq { params =>
 
           findSupportedFile("data/" + path) match {
-            case ("json", file) => getFromFile(file, `application/json`)
+            case ("", file) => getFromFile(file)
             case (format, file) => getFromTemplate(file, params.toMap)
           }
         }
@@ -41,7 +41,7 @@ trait FakeDataService extends HttpService with ScalateTemplate {
 
   def findSupportedFile(path: String): (String, File) = {
     val map = supportedFormat.map(s => {
-      (s, FileResourceLoader().resource(path.replace("json", s)))
+      (s, FileResourceLoader().resource(path ++ s))
     })
     map.filter(_._2.isDefined)
     match {

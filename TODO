@@ -1,4 +1,3 @@
 - Serve same files for dynamic REST paths (Example: /orders/12345/things.json even if directory 12345 does not exists)
 - Install/embed/usage convenient system
-- accept XML requests and contentType
 - Weird error during first access???

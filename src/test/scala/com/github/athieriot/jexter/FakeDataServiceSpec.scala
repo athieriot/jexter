@@ -50,6 +50,13 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
       }
     }
 
+    "return a XML corresponding to the given path" in {
+      Get("/data/order/example.xml") ~> myRoute ~> check {
+        mediaType must beEqualTo(MediaTypes.`text/xml`)
+        responseAs[String] must contain("batch")
+      }
+    }
+
     "return a specific message when format not supported" in {
       Get("/kermit") ~> myRoute ~> check {
         handled must beFalse

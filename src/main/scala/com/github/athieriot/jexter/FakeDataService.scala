@@ -2,51 +2,49 @@ package com.github.athieriot.jexter
 
 import akka.actor.Actor
 import spray.routing._
-import spray.http.MediaTypes._
 
-import java.io.{File, FileNotFoundException}
-import org.fusesource.scalate.util.FileResourceLoader
-
-// we don't implement our route structure directly in the service actor because
-// we want to be able to test it independently, without having to spin up an actor
 class FakeDataServiceActor extends Actor with FakeDataService {
 
-  // the HttpService trait defines only one abstract member, which
-  // connects the services environment to the enclosing actor or test
   def actorRefFactory = context
 
-  // this actor only runs our route, but you could add
-  // other things here, like request stream processing
-  // or timeout handling
-  def receive = runRoute(myRoute)
+  def receive = runRoute(fakingRoute)
 }
 
-// this trait defines our service behavior independently from the service actor
 trait FakeDataService extends HttpService with ScalateTemplate {
+  import java.io.File
+  import org.fusesource.scalate.util.FileResourceLoader
+  import com.typesafe.config.{Config, ConfigFactory}
+  import spray.http.StatusCodes._
+  import collection.JavaConversions._
 
-  val supportedFormat = List("", ".ssp", ".mustache", ".scaml", ".jade")
+  val conf: Config = ConfigFactory.load()
 
-  val myRoute =
-    path("data" / Rest) { path =>
+  // non-lazy fields, we want all exceptions at construct time
+  val supportedFormat = conf.getStringList( "jexter.supportedScalateFormat").toList
+  val rootPath =        conf.getString(     "jexter.rootPath")
+
+  val fakingRoute =
+    path(rootPath / Rest) { path =>
       get {
         parameterSeq { params =>
 
-          findSupportedFile("data/" + path) match {
-            case ("", file) => getFromFile(file)
-            case (format, file) => getFromTemplate(file, params.toMap)
+          findSupportedFile(s"$rootPath/$path") match {
+            case None =>                  complete(NotFound)
+            case Some(("", file)) =>      getFromFile(file)
+            case Some((format, file)) =>  getFromTemplate(file, params.toMap)
           }
         }
       }
     }
 
-  def findSupportedFile(path: String): (String, File) = {
-    val map = supportedFormat.map(s => {
+  def findSupportedFile(path: String): Option[(String, File)] = {
+    val map = ("" :: supportedFormat).map(s => {
       (s, FileResourceLoader().resource(path ++ s))
     })
     map.filter(_._2.isDefined)
     match {
-      case Nil => throw new FileNotFoundException()
-      case (format, resource) :: tail => (format, resource.get.toFile.get)
+      case Nil => None
+      case (format, resource) :: tail => Some((format, resource.get.toFile.get))
     }
   }
 }

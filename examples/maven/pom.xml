@@ -1,0 +1,26 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <name>Jexter Maven Example</name>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven</artifactId>
+    <version>0.1</version>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.athieriot</groupId>
+            <artifactId>jexter_2.10</artifactId>
+            <version>0.1</version>
+        </dependency>
+    </dependencies>
+
+    <!-- The library has to be retrieve from a Github repo -->
+    <!-- Jexter will go into Sonatype just after Spray.io -->
+    <repositories>
+        <repository>
+            <id>jexter-repository</id>
+            <url>https://raw.github.com/athieriot/jexter/master/mvn-repo</url>
+        </repository>
+    </repositories>
+</project>

@@ -1,4 +1,8 @@
-- Install/embed/usage convenient system
-- Serve same files for dynamic REST paths (Example: /orders/12345/things.json even if directory 12345 does not exists)
 - Damn repo.spray.io !!!
+- Serve same files for dynamic REST paths (Example: /orders/12345/things.json even if directory 12345 does not exists)
 - cache
+- Images placeholders "/images/300x200" (http://dummyimage.com/)
+- Fake date generator
+- Insert static data in every templates
+- combined request
+- status code

@@ -1,4 +1,4 @@
-organization  := "com.example"
+organization  := "com.github.athieriot"
 
 version       := "0.1"
 
@@ -32,3 +32,9 @@ seq(webSettings: _*)
 packagedArtifacts <<= packagedArtifacts map { as => as.filter(_._1.`type` != "war") }
 
 publishArtifact in (Compile, packageBin) := true
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+publishTo := Some(Resolver.file("file",  new File( "./mvn-repo" )) )

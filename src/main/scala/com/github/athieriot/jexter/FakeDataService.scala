@@ -29,9 +29,9 @@ trait FakeDataService extends HttpService with ScalateTemplate {
         parameterSeq { params =>
 
           findSupportedFile(s"$rootPath/$path") match {
-            case None =>                  complete(NotFound)
-            case Some(("", file)) =>      getFromFile(file)
-            case Some((format, file)) =>  getFromTemplate(file, params.toMap)
+            case None =>              complete(NotFound)
+            case Some(("", file)) =>  getFromFile(file)
+            case Some((_, file)) =>   getFromTemplate(file, params.toMap)
           }
         }
       }

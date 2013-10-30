@@ -1,6 +1,6 @@
 # Jexter
 
-## Spray server for dynamic, fake JSON 
+## Spray server for dynamic, fake REST data
 
 This project intent to be a lightweight server to provide a fake REST interface for you application.
 

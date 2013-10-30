@@ -15,7 +15,7 @@ This is best deployed into a WAR file.
 Any file present will be made available as is.
 The content type is deduced from the extension.
 
-_data/your/file.json_ will be available at _http://localhost:port/data/your/file.json_ as _application/json_
+__data/your/file.json__ will be available at __http://localhost:port/data/your/file.json__ as __application/json__
 
 ### Dynamic templates
 
@@ -26,7 +26,7 @@ More generally, it might be handy to customise the data, generate values and so 
 
 Jexter allows you to use [Scalate](http://scalate.fusesource.org/) templates.
 
-_data/your/dyno.json.mustache_ will be available at _http://localhost:port/data/your/dyno.json_
+__data/your/dyno.json.mustache__ will be available at __http://localhost:port/data/your/dyno.json__
 
 Any parameters you have in your request is passed to the template as value.
 
@@ -38,7 +38,7 @@ Given a template:
 }
 ```
 
-_http://localhost:port/data/your/dyno.json?ceci=cela_ will render:
+__http://localhost:port/data/your/dyno.json?ceci=cela__ will render:
 
 ```
 {
@@ -54,11 +54,13 @@ _http://localhost:port/data/your/dyno.json?ceci=cela_ will render:
 
 Add the dependency:
 
-``` sbt:
+SBT:
+```
 libraryDependencies += "com.github.athieriot" %% "jexter" % "0.1"
 ```
 
-``` maven:
+Maven:
+```
 <dependency>
     <groupId>com.github.athieriot</groupId>
     <artifactId>jexter_2.10</artifactId>
@@ -96,6 +98,8 @@ Add a new __web.xml__ file in __webapp/WEB-INF__ with this content:
 
 For SBT, you will want to configure the [xsbt-web-plugin](https://github.com/JamesEarlDouglas/xsbt-web-plugin)
 
+### Examples
+
 This project contains two minimal projects examples to start with:
 
 Maven: [https://github.com/athieriot/jexter/tree/master/examples/maven](https://github.com/athieriot/jexter/tree/master/examples/maven)
@@ -110,11 +114,13 @@ For now (2013), Spray.io is not hosted in the Sonatype repository.
 As such, Jexter can't be hosted there neither.
 While this is the case, you will need to add a third party repository in your project.
 
-``` sbt:
+SBT:
+```
 resolvers += "Jexter Maven Repository" at "https://raw.github.com/athieriot/jexter/master/mvn-repo"
 ```
 
-``` maven:
+Maven:
+```
 <repository>
     <id>jexter-repository</id>
     <url>https://raw.github.com/athieriot/jexter/master/mvn-repo</url>
@@ -127,6 +133,11 @@ You can optionally override values in an __application.conf__ present in the cla
 
 ### Spray
 
+
+If you deploy the project as a WAR at a different context than root.
+You need to specify it to Spray.
+In this example, Spray can respond to http://localhost:8080/maven
+
 ```
 spray.servlet {
   root-path = "/maven"
@@ -134,19 +145,15 @@ spray.servlet {
 
 ```
 
-If you deploy the project as a WAR at a different context than root.
-You need to specify it to Spray.
-In this example, Spray can respond to http://localhost:8080/maven
-
 ### Jexter
+
+The root path of Jexter is where your files can be found in the class path.
 
 ```
 jexter {
     rootPath = "data/"
 }
 ```
-
-The root path of Jexter is where your files can be found in the class path.
 
 ## Thanks
 

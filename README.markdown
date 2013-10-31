@@ -1,3 +1,5 @@
+[![Travis CI Status](https://travis-ci.org/athieriot/jexter.png)](https://travis-ci.org/athieriot/jexter) [![Coverage Status](https://coveralls.io/repos/athieriot/jexter/badge.png)](https://coveralls.io/r/athieriot/jexter)
+
 # Jexter
 
 ## Spray server for dynamic, fake REST data

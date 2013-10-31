@@ -10,6 +10,10 @@ resolvers ++= Seq(
   "spray repo" at "http://repo.spray.io/"
 )
 
+seq(ScctPlugin.instrumentSettings : _*)
+
+seq(CoverallsPlugin.singleProject: _*)
+
 libraryDependencies ++= {
   val akkaV = "2.2.3"
   val sprayV = "1.2-RC1"

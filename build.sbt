@@ -12,7 +12,7 @@ resolvers ++= Seq(
 
 seq(ScctPlugin.instrumentSettings : _*)
 
-seq(com.github.theon.coveralls.CoverallsPlugin.coverallsSettings: _*)
+seq(CoverallsPlugin.singleProject: _*)
 
 libraryDependencies ++= {
   val akkaV = "2.2.3"

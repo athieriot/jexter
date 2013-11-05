@@ -157,6 +157,17 @@ jexter {
 }
 ```
 
+## Troubleshooting
+
+With the default JVM configuration, you might encounter an out of memory exception using Jexter.
+Increase the value of the property ```MaxPermSize``` should resolve the problem.
+
+The __JAVA_OPTS__ option to do so is:
+
+```
+-XX:MaxPermSize=256M
+```
+
 ## Thanks
 
 Inspired from [Dyson](https://github.com/webpro/dyson)

@@ -2,6 +2,7 @@ package com.github.athieriot.jexter
 
 import akka.actor.Actor
 import spray.routing._
+import spray.http._
 
 class FakeDataServiceActor extends Actor with FakeDataService {
 
@@ -23,28 +24,59 @@ trait FakeDataService extends HttpService with ScalateTemplate {
   val supportedFormat = conf.getStringList( "jexter.supportedScalateFormat").toList
   val rootPath =        conf.getString(     "jexter.rootPath")
 
+  val optionalContentType = optionalHeaderValuePF { case HttpHeaders.`Content-Type`(ct) => ct }
+
   val fakingRoute =
     path(rootPath / Rest) { path =>
       get {
         parameterSeq { params =>
+          optionalContentType { contentType =>
 
-          findSupportedFile(s"$rootPath/$path") match {
-            case None =>              complete(NotFound)
-            case Some(("", file)) =>  getFromFile(file)
-            case Some((_, file)) =>   getFromTemplate(file, params.toMap)
+            val definitivePath = resolvePathWithExtension(rootPath, path, contentType)
+
+            findSupportedFile(definitivePath) match {
+              case None =>                      complete(NotFound)
+              case Some(("File", file)) =>      getFromFile(file)
+              case Some(("Template", file)) =>  getFromTemplate(file, params.toMap)
+            }
           }
         }
       }
     }
 
   def findSupportedFile(path: String): Option[(String, File)] = {
+
+    //TODO: Cleaning? Or at least make clearer why
     val map = ("" :: supportedFormat).map(s => {
       (s, FileResourceLoader().resource(path ++ s))
     })
     map.filter(_._2.isDefined)
     match {
       case Nil => None
-      case (format, resource) :: tail => Some((format, resource.get.toFile.get))
+      case (format, resource) :: tail => {
+        //TODO: File and Template shouldn't be just Strings
+        // - Resolvers
+        // - Just types
+        val resolution = if (format == "") "File" else "Template"
+
+        Some((resolution, resource.get.toFile.get))
+      }
     }
+  }
+
+  private def resolvePathWithExtension(rootPath: String, path: String, ct: Option[ContentType]) = {
+    val requestedExt = resolveExtension(ct)
+    val approximatePath = s"$rootPath/$path"
+
+    if (approximatePath.endsWith(requestedExt)) approximatePath
+    else                                        s"$approximatePath.$requestedExt"
+
+  }
+
+  private def resolveExtension(ct: Option[ContentType]) = ct match {
+    //TODO: More formats extensions
+    case Some(e) if e.mediaType == MediaTypes.`application/json`  => "json"
+    case Some(e) if e.mediaType == MediaTypes.`text/xml`          => "xml"
+    case _ => ""
   }
 }

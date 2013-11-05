@@ -10,7 +10,10 @@ class FakeDataServiceSpec extends Specification with Specs2RouteTest with FakeDa
   
   "FakeDataService" should {
 
-    //TODO: Test JSON format
+    //TODO: Test when:
+    // - Header Content type + extension
+    // - Header Content type without extension
+    // - No header + No extension
     "return a static JSON corresponding to the given path" in {
       Get("/data/order.json") ~> fakingRoute ~> check {
         mediaType must beEqualTo(MediaTypes.`application/json`)

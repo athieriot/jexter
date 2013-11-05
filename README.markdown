@@ -153,7 +153,7 @@ The root path of Jexter is where your files can be found in the class path.
 
 ```
 jexter {
-    rootPath = "data/"
+    rootPath = "data"
 }
 ```
 

@@ -1,6 +1,6 @@
 package com.github.athieriot.jexter
 
-import org.fusesource.scalate.{TemplateException, TemplateEngine}
+import org.fusesource.scalate.TemplateException
 import org.fusesource.scalate.util.Resource
 import java.io.File
 import spray.routing.directives.ContentTypeResolver
@@ -8,14 +8,18 @@ import spray.routing._
 import spray.routing.directives.MethodDirectives._
 import spray.routing.directives.RouteDirectives._
 import org.fusesource.scalate.util.FileResourceLoader
-import scala.Some
 import spray.http.{HttpData, HttpEntity}
+import com.typesafe.scalalogging.slf4j.Logging
 
 
-trait ScalateTemplate {
+trait ScalateTemplate extends Logging {
 
   lazy val engine = {
-    val engine = new TemplateEngine
+    // Need to override a small number of methods in the default TemplateEngine.
+    // It is hopefully a temporary solution to fix a bug happening when
+    // the application is located under /var/ (Example: Jenkins build)
+    val engine = new CustomTemplateEngine
+
     engine.resourceLoader = new FileResourceLoader {
       override def resource(uri: String): Option[Resource] =
         Some(Resource.fromUri(uri, FileResourceLoader()))
@@ -37,7 +41,11 @@ trait ScalateTemplate {
 
         complete(HttpEntity(resolver.apply(fileName.stripSuffix(s".${ext}")), HttpData(output)))
       } catch {
-        case e: TemplateException => reject
+        case e: TemplateException => {
+
+          logger.error(e.getLocalizedMessage)
+          reject
+        }
       }
     }
   }

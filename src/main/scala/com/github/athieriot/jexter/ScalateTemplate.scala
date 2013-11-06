@@ -13,15 +13,9 @@ import spray.http.{HttpData, HttpEntity}
 
 
 trait ScalateTemplate {
-  import com.typesafe.config.{ConfigFactory, Config}
-
-  val PACKAGE_PREFIX_CONF_PATH: String = "jexter.packagePrefix"
 
   lazy val engine = {
     val engine = new TemplateEngine
-
-    setPackagePrefix(engine)
-
     engine.resourceLoader = new FileResourceLoader {
       override def resource(uri: String): Option[Resource] =
         Some(Resource.fromUri(uri, FileResourceLoader()))
@@ -45,16 +39,6 @@ trait ScalateTemplate {
       } catch {
         case e: TemplateException => reject
       }
-    }
-  }
-
-  private def setPackagePrefix(engine: TemplateEngine): Unit = {
-    val conf: Config = ConfigFactory.load()
-
-    if (conf.hasPath(PACKAGE_PREFIX_CONF_PATH)
-      && !conf.getString(PACKAGE_PREFIX_CONF_PATH).isEmpty) {
-
-      engine.packagePrefix = conf.getString(PACKAGE_PREFIX_CONF_PATH)
     }
   }
 }

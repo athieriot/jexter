@@ -5,7 +5,7 @@
     <artifactId>jexter_2.10</artifactId>
     <packaging>jar</packaging>
     <description>jexter</description>
-    <version>0.2</version>
+    <version>0.2.3</version>
     <name>jexter</name>
     <organization>
         <name>com.github.athieriot</name>
@@ -56,6 +56,16 @@
             <groupId>com.typesafe</groupId>
             <artifactId>config</artifactId>
             <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>scalalogging-slf4j_2.10</artifactId>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
     <repositories>

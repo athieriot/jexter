@@ -8,8 +8,11 @@
 - Partials (For automatic lists for example)
 - Precompile templates
 - Recorder
+- documentation with ... I don't remember the name
 
 Bugs:
 
 Too big documents... :/
 +1500 lines
+
+- Resolve ContentType via Accept header?

@@ -67,7 +67,7 @@ Add the dependency:
 
 SBT:
 ```
-libraryDependencies += "com.github.athieriot" %% "jexter" % "0.1"
+libraryDependencies += "com.github.athieriot" %% "jexter" % "0.3"
 ```
 
 Maven:
@@ -75,7 +75,7 @@ Maven:
 <dependency>
     <groupId>com.github.athieriot</groupId>
     <artifactId>jexter_2.10</artifactId>
-    <version>0.1</version>
+    <version>0.3</version>
 </dependency>
 ```
 

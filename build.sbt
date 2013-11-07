@@ -1,6 +1,6 @@
 organization  := "com.github.athieriot"
 
-version       := "0.2.3"
+version       := "0.3"
 
 scalaVersion  := "2.10.3"
 

@@ -19,6 +19,15 @@ The content type is deduced from the extension.
 
 __data/your/file.json__ will be available at __http://localhost:port/data/your/file.json__ as __application/json__
 
+### Content Negociation
+
+You can request, via the header value "Content-Type" a specific result format.
+This will order Jexter to look for a specific file extension in your classpath.
+
+For example:
+
+__data/your/file.json__ can be available at __http://localhost:port/data/your/file__ if you add in your header __Content-Type = "application/json"__
+
 ### Dynamic templates
 
 Ok. This is very good but I don't need Spray just for static files!

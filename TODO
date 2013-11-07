@@ -2,7 +2,14 @@
 - Serve same files for dynamic REST paths (Example: /orders/12345/things.json even if directory 12345 does not exists)
 - cache
 - Images placeholders "/images/300x200" (http://dummyimage.com/)
-- Fake date generator
-- Insert static data in every templates
+- Fake date generator                 (data = now also)
 - combined request
 - status code
+- Partials (For automatic lists for example)
+- Precompile templates
+- Recorder
+
+Bugs:
+
+Too big documents... :/
++1500 lines

@@ -1,5 +1,5 @@
 <%@ val city: String = "" %>
 
 {
-    "title": "${city}"
+    "city": "${city}"
 }

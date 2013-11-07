@@ -8,11 +8,13 @@ import spray.routing._
 import spray.routing.directives.MethodDirectives._
 import spray.routing.directives.RouteDirectives._
 import org.fusesource.scalate.util.FileResourceLoader
-import spray.http.{HttpData, HttpEntity}
+import spray.http.{StatusCodes, HttpData, HttpEntity}
 import com.typesafe.scalalogging.slf4j.Logging
+import com.github.athieriot.jexter.custom.CustomTemplateEngine
 
 
 trait ScalateTemplate extends Logging {
+  import StatusCodes._
 
   lazy val engine = {
     // Need to override a small number of methods in the default TemplateEngine.
@@ -39,12 +41,12 @@ trait ScalateTemplate extends Logging {
       try {
         val output = engine.layout(fileName, context)
 
-        complete(HttpEntity(resolver.apply(fileName.stripSuffix(s".${ext}")), HttpData(output)))
+        complete(HttpEntity(resolver.apply(fileName.stripSuffix(s".$ext")), HttpData(output)))
       } catch {
         case e: TemplateException => {
 
           logger.error(e.getLocalizedMessage)
-          reject
+          complete(BadRequest)
         }
       }
     }

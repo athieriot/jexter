@@ -3,11 +3,11 @@
 #match(country)
 #case("France")
     {
-        "title": "Paris"
+        "capitol": "Paris"
     }
 #case("Italia")
     {
-        "title": "Rome"
+        "capitol": "Rome"
     }
 #otherwise
     {}

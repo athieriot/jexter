@@ -1,4 +1,4 @@
-package com.github.athieriot.jexter
+package com.github.athieriot.jexter.custom
 
 import org.fusesource.scalate.{Binding, Template, TemplateSource, TemplateEngine}
 import org.fusesource.scalate.util.{UriResource, ResourceLoader}

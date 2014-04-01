@@ -67,7 +67,7 @@ Add the dependency:
 
 SBT:
 ```
-libraryDependencies += "com.github.athieriot" %% "jexter" % "0.3"
+libraryDependencies += "com.github.athieriot" %% "jexter" % "0.5.1"
 ```
 
 Maven:
@@ -75,7 +75,7 @@ Maven:
 <dependency>
     <groupId>com.github.athieriot</groupId>
     <artifactId>jexter_2.10</artifactId>
-    <version>0.3</version>
+    <version>0.5.1</version>
 </dependency>
 ```
 
@@ -116,27 +116,6 @@ This project contains two minimal projects examples to start with:
 Maven: [https://github.com/athieriot/jexter/tree/master/examples/maven](https://github.com/athieriot/jexter/tree/master/examples/maven)
 
 SBT: [https://github.com/athieriot/jexter/tree/master/examples/sbt](https://github.com/athieriot/jexter/tree/master/examples/sbt)
-
-## Repository
-
-One of the required dependency of this project is Spray.io.
-For now (2013), Spray.io is not hosted in the Sonatype repository.
-
-As such, Jexter can't be hosted there neither.
-While this is the case, you will need to add a third party repository in your project.
-
-SBT:
-```
-resolvers += "Jexter Maven Repository" at "https://raw.github.com/athieriot/jexter/master/mvn-repo"
-```
-
-Maven:
-```
-<repository>
-    <id>jexter-repository</id>
-    <url>https://raw.github.com/athieriot/jexter/master/mvn-repo</url>
-</repository>
-```
 
 ## Configuration
 
